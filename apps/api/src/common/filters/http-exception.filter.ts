@@ -23,8 +23,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let error: string;
 
     if (exception instanceof HttpException) {
-      statusCode = exception.getStatus();
-      const exceptionResponse = exception.getResponse();
+      const httpEx = exception as HttpException;
+      statusCode = httpEx.getStatus();
+      const exceptionResponse = httpEx.getResponse();
 
       if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
@@ -36,10 +37,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         const msg = (exceptionResponse as { message: unknown }).message;
         message = Array.isArray(msg) ? msg.join('; ') : String(msg);
       } else {
-        message = exception.message;
+        message = httpEx.message;
       }
 
-      error = exception.name.replace('Exception', '');
+      error = httpEx.name.replace('Exception', '');
     } else {
       // Unknown/internal error — log it but don't leak internals to the client
       statusCode = HttpStatus.INTERNAL_SERVER_ERROR;

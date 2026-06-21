@@ -1,0 +1,1 @@
+{"version":3,"file":"isolation.types.d.ts","sourceRoot":"","sources":["isolation.types.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,YAAY;IAC3B,KAAK,EAAE,MAAM,CAAC;IACd,MAAM,EAAE,MAAM,CAAC;CAChB;AAED;;GAEG;AACH,MAAM,WAAW,sBAAsB;IACrC,IAAI,EAAE,MAAM,EAAE,CAAC;IACf,OAAO,EAAE,YAAY,EAAE,CAAC;CACzB"}
