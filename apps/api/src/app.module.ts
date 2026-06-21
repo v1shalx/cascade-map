@@ -3,6 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { validateEnv } from './config/env.config';
 import { DatabaseModule } from './database/database.module';
 import { SchemaDiscoveryModule } from './modules/schema-discovery/schema-discovery.module';
+import { CascadeModule } from './modules/cascade/cascade.module';
+import { IsolationCheckModule } from './modules/isolation-check/isolation-check.module';
+import { DeleteScriptModule } from './modules/delete-script/delete-script.module';
+import { RowDetailsModule } from './modules/row-details/row-details.module';
 
 @Module({
   imports: [
@@ -14,7 +18,10 @@ import { SchemaDiscoveryModule } from './modules/schema-discovery/schema-discove
     }),
     DatabaseModule,
     SchemaDiscoveryModule,
-    // Phase 2 modules added here: CascadeModule, IsolationCheckModule, DeleteScriptModule
+    CascadeModule,
+    IsolationCheckModule,
+    DeleteScriptModule,
+    RowDetailsModule,
   ],
 })
 export class AppModule {}
