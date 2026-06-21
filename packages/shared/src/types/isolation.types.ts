@@ -1,5 +1,3 @@
-
-
 /**
  * A table flagged as potentially leaking across tenant boundaries.
  */
@@ -9,7 +7,7 @@ export interface FlaggedTable {
 }
 
 /**
- * Response shape for GET /isolation-check
+ * Response shape for GET /api/isolation-check
  */
 export interface IsolationCheckResponse {
   safe: string[];
