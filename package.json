@@ -1,0 +1,24 @@
+{
+  "name": "cascade-map",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Auto-discovers Postgres FK relationships and animates delete-cascade simulations",
+  "scripts": {
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "dev:api": "pnpm --filter @cascade-map/api dev",
+    "dev:web": "pnpm --filter @cascade-map/web dev"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: cascade_admin
+          POSTGRES_PASSWORD: cascade_admin_secret
+          POSTGRES_DB: cascade_map
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Seed test database
+        run: |
+          psql postgresql://cascade_admin:cascade_admin_secret@localhost:5432/cascade_map \
+            -f scripts/init-db.sql
+          psql postgresql://cascade_admin:cascade_admin_secret@localhost:5432/cascade_map \
+            -f scripts/seed.sql
+
+      - name: Run tests
+        run: pnpm test
+        env:
+          DATABASE_URL: postgresql://cascade_readonly:readonly_secret@localhost:5432/cascade_map
+          PORT: 3001
+          MAX_TRAVERSAL_DEPTH: 5
+          MAX_ROWS_PER_TABLE: 500
